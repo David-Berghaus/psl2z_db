@@ -19,3 +19,4 @@ sage: load("to_sage.sage")
 sage: indices = [i for i in range(2,25)] #Set to None to load all indices, which takes however significant amounts of memory
 sage: res = load_files(indices=indices)
 ```
+Additionally, you can filter by the genus and passport size.
