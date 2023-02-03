@@ -12,8 +12,13 @@ def load_files(indices=None, genera=None, max_pp_size=None):
     """
     res = {}
     if indices is None:
-        indices = list(next(os.walk('.'))[1])
-    indices = indices.sort()
+        indices = []
+        for dir in next(os.walk('.'))[1]:
+            try:
+                indices.append(int(dir))
+            except:
+                continue
+    indices.sort()
     for index in indices:
         res[index] = {}
         for root, dirs, files in os.walk("./"+str(index)):
@@ -40,8 +45,13 @@ def count_passports(indices=None, genera=None, max_pp_size=None):
     """
     counts = {}
     if indices is None:
-        indices = list(next(os.walk('.'))[1])
-    indices = indices.sort()
+        indices = []
+        for dir in next(os.walk('.'))[1]:
+            try:
+                indices.append(int(dir))
+            except:
+                continue
+    indices.sort()
     for index in indices:
         count = 0
         for root, dirs, files in os.walk("./"+str(index)):
