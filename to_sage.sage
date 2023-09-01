@@ -21,8 +21,8 @@ def load_files(indices=None, genera=None, max_pp_size=None):
     indices.sort()
     for index in indices:
         res[index] = {}
-        for root, dirs, files in os.walk("./"+str(index)):
-            genus, signature = root.replace(".","").split("/")[-2:]
+        for root, dirs, files in os.walk("./"+index_to_string(index)):
+            genus = root.replace(".","").split("/")[-1]
             if genera != None and genus != "" and int(genus) not in genera:
                 continue
             for file in files:
@@ -31,13 +31,16 @@ def load_files(indices=None, genera=None, max_pp_size=None):
                     if max_pp_size != None and get_line_count(file_path) > max_pp_size:
                         continue
                     subgroups = load_subgroups(file_path)
-                    monodromy_group = file.replace(".dat","")
+                    label = file.replace(".dat","")
                     if genus not in res[index]:
                         res[index][genus] = {}
-                    if signature not in res[index][genus]:
-                        res[index][genus][signature] = {}                   
-                    res[index][genus][signature][monodromy_group] = subgroups
+                    res[index][genus][label] = subgroups
     return res
+
+def index_to_string(index):
+    if index < 10:
+        return "0"+str(index)
+    return str(index)
 
 def count_passports(indices=None, genera=None, max_pp_size=None):
     """
@@ -54,8 +57,8 @@ def count_passports(indices=None, genera=None, max_pp_size=None):
     indices.sort()
     for index in indices:
         count = 0
-        for root, dirs, files in os.walk("./"+str(index)):
-            genus, signature = root.replace(".","").split("/")[-2:]
+        for root, dirs, files in os.walk("./"+index_to_string(index)):
+            genus = root.replace(".","").split("/")[-1]
             if genera != None and genus != "" and int(genus) not in genera:
                 continue
             for file in files:
